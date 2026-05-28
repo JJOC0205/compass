@@ -34,6 +34,21 @@ struct Marker: Hashable{
     }
 }
 
+struct CompassMarkerView: View{
+    let marker: Marker
+    let compassDegrees: Double
+    
+    var body: some View{
+        VStack{
+            Text("\(marker.degrees)")
+            
+            Capsule().frame(width: 3, height: 30).foregroundColor(Color.gray)
+            Text(marker.label)
+        }
+        .rotationEffect(Angle(degrees: marker.degrees))
+    }
+}
+
 struct ContentView: View {
     var body: some View {
         VStack {
@@ -43,7 +58,7 @@ struct ContentView: View {
             // 1
             ZStack{
                 //2
-                ForEach([0,30,60,90,120,150,180,210,240,270,300,330], id: \.self) { marker in // TODO
+                ForEach(Marker.markers(), id: \.self) { marker in CompassMarkerView(marker: marker, compassDegrees: 0)
                 }
             }.frame(width: 300, height: 300)
                 .rotationEffect(Angle(degrees: 0))
